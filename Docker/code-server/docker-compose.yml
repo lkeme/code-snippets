@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  code-server:
+    image: linuxserver/code-server:latest
+    container_name: code-server
+    environment:
+      - PUID=1027  # m
+      - PGID=100   # m
+      - TZ=Asia/Shanghai
+      - PASSWORD=password1 # m
+      - SUDO_PASSWORD=password2 # m
+      - DEFAULT_WORKSPACE=/home/coder/workspace
+      # - PROXY_DOMAIN=xxx
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /volume1/docker/code-server/config:/config:rw # m
+      - /volume1/Code:/config/workspace:rw # m
+    ports:
+      - 8663:8443 # m
+    # restart: always
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+
+
